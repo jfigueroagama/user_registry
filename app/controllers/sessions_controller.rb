@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
-  
+  after_action :checkin, only: :create
+  before_action :checkout, only: :destroy
+
   def new
   end
 
@@ -17,6 +19,20 @@ class SessionsController < ApplicationController
   def destroy
     log_out
     redirect_to root_url
+  end
+
+  private
+
+  def checkin
+    session = Session.new(email: params[:session][:email].downcase, 
+                          checkin: Time.now.strftime("%Y-%m-%d %H-%M"), checkout: nil)
+    session.save!
+  end
+
+  def checkout
+    user = User.find_by(id: session[:user_id])
+    session = Session.new(email: user.email, checkin: nil, checkout: Time.now.strftime("%Y-%m-%d %H-%M"))
+    session.save!
   end
 
 end
