@@ -1,0 +1,23 @@
+<h1>Listing Checkin's and Checkout's</h1>
+ 
+<table style="width:50%">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Checkin</th>
+      <th>Checkout</th>
+    </tr>
+    <b>
+  </thead>
+ 
+  <tbody>
+    <% @sessions.each do |session| %>
+      <tr>
+        <td><%= session.email %></td>
+        <td><%= session.checkin %></td>
+        <td><%= session.checkout %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+ 
