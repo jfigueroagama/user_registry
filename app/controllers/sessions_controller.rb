@@ -29,13 +29,15 @@ class SessionsController < ApplicationController
 
   def checkin
     session = Session.new(email: params[:session][:email].downcase, 
-                          checkin: Time.now.strftime("%Y-%m-%d %H-%M"), checkout: nil)
+    checkin: Time.now.in_time_zone("Central Time (US & Canada)").strftime("%Y-%m-%d %H-%M"),
+    checkout: nil)
     session.save!
   end
 
   def checkout
     user = User.find_by(id: session[:user_id])
-    session = Session.new(email: user.email, checkin: nil, checkout: Time.now.strftime("%Y-%m-%d %H-%M"))
+    session = Session.new(email: user.email, checkin: nil, 
+    checkout: Time.now.in_time_zone("Central Time (US & Canada)").strftime("%Y-%m-%d %H-%M"))
     session.save!
   end
 
